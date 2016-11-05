@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<f:view
+	xmlns:tc="http://myfaces.apache.org/tobago/component"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<tc:page width="1500" height="1000">
+		<f:facet name="layout">
+			<tc:gridLayout columns="*;5*;*"/>
+		</f:facet>
+		<tc:panel/>
+		<tc:panel>
+			<f:facet name="layout">
+				<tc:gridLayout rows="fixed;*"/>
+			</f:facet>
+			<tc:box label="Список заказов">
+				<f:facet name="layout">
+					<tc:gridLayout rows="auto" columns="10*;*"/>
+				</f:facet>
+				<tc:sheet
+					columns="1*;2*;3*;2*;2*"
+					value="#{orderBean.orderList}"
+					var="order"
+					state="#{orderBean.selectedOrders}">
+					<tc:column id="id" label="Номер заказа">
+						<tc:out value="#{order.id}"/>
+					</tc:column>
+					<tc:column id="customer" label="Заказчик">
+						<tc:out value="#{order.customer}"/>
+					</tc:column>
+					<tc:column id="address" label="Адрес">
+						<tc:out value="#{order.address}"/>
+					</tc:column>
+					<tc:column id="date" label="Время заказа">
+						<tc:out value="#{order.date}">
+							<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" timeZone="#{orderBean.timeZone}"/>
+						</tc:out>
+					</tc:column>
+					<tc:column id="state" label="Состояние">
+						<tc:out value="#{orderBean.getReadableStateName(order.state)}"/>
+					</tc:column>
+				</tc:sheet>
+				<tc:panel>
+					<f:facet name="layout">
+						<tc:gridLayout rows="fixed;fixed"/>
+					</f:facet>
+					<tc:button label="Добавить" action="#{orderBean.addOrder()}"/>
+					<tc:button label="Изменить" action="#{orderBean.editOrder()}"/>
+				</tc:panel>
+			</tc:box>
+			<tc:panel/>
+		</tc:panel>
+		<tc:panel/>
+		<ui:include src="popup.xhtml"/>
+	</tc:page>
+</f:view>
